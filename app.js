@@ -2,6 +2,8 @@ const express = require('express')
 const handlebars = require('express-handlebars')
 const routes = require('./routes')
 const app = express()
+const faker = require('faker')
+
 const port = process.env.PORT || 3000
 // 註冊 Handlebars 樣板引擎，並指定副檔名為 .hbs
 app.engine('hbs', handlebars({ extname: '.hbs' }))
@@ -12,4 +14,7 @@ app.use(routes)
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}!`)
 })
+console.log('======', faker.datatype.number)
+console.log('------', faker.random.number)
+
 module.exports = app
