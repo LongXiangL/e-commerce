@@ -5,16 +5,14 @@ const app = express()
 const faker = require('faker')
 
 const port = process.env.PORT || 3000
-// 註冊 Handlebars 樣板引擎，並指定副檔名為 .hbs
-app.engine('hbs', handlebars({ extname: '.hbs' }))
-// 設定使用 Handlebars 做為樣板引擎
-app.set('view engine', 'hbs')
 
+app.engine('hbs', handlebars({ extname: '.hbs' }))// 樣板引擎，指定副檔名為 .hbs
+
+app.set('view engine', 'hbs')// 設定使用 Handlebars 做為樣板引擎
+app.use(express.urlencoded({ extended: true }))// body-parser
 app.use(routes)
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}!`)
 })
-console.log('======', faker.datatype.number)
-console.log('------', faker.random.number)
 
 module.exports = app
