@@ -1,5 +1,5 @@
 const { Product } = require('../models')
-const { localFileHandler } = require('../helpers/file-helpers')
+const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
   getProducts: (req, res, next) => {
@@ -16,7 +16,7 @@ const adminController = {
     const { name, price, image, description, inventory } = req.body
     if (!name) throw new Error('Product name is required!')
     const { file } = req
-    localFileHandler(file)
+    imgurFileHandler(file)
       .then(filePath => Product.create({
         name,
         price,
@@ -56,7 +56,7 @@ const adminController = {
     const { file } = req
     Promise.all([
       Product.findByPk(req.params.id),
-      localFileHandler(file)
+      imgurFileHandler(file)
     ])
       .then(([product, filePath]) => {
         if (!product) throw new Error("Product didn't exist!")
@@ -80,7 +80,10 @@ const adminController = {
         if (!product) throw new Error("product didn't exist!")
         return product.destroy()
       })
-      .then(() => res.redirect('/admin/products'))
+      .then(() => {
+        req.flash('success_messages', `Product Id:${req.params.id} Delete Success!`)
+        res.redirect('/admin/products')
+      })
       .catch(err => next(err))
   }
 }
