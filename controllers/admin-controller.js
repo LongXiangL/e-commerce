@@ -13,7 +13,7 @@ const adminController = {
     return res.render('admin/create-product')
   },
   postProduct: (req, res, next) => {
-    const { name, price, image, description } = req.body
+    const { name, price, image, description, inventory } = req.body
     if (!name) throw new Error('Product name is required!')
     const { file } = req
     localFileHandler(file)
@@ -21,7 +21,8 @@ const adminController = {
         name,
         price,
         image: filePath || null || image,
-        description
+        description,
+        inventory
       }))
       .then(() => {
         req.flash('success_messages', 'product was successfully created')
@@ -50,7 +51,7 @@ const adminController = {
       .catch(err => next(err))
   },
   putProduct: (req, res, next) => {
-    const { name, price, image, description } = req.body
+    const { name, price, image, description, inventory } = req.body
     if (!name) throw new Error('Product name is required!')
     const { file } = req
     Promise.all([
@@ -63,13 +64,23 @@ const adminController = {
           name,
           price,
           image: filePath || product.image || image,
-          description
+          description,
+          inventory
         })
       })
       .then(() => {
         req.flash('success_messages', 'product was successfully to update')
         res.redirect('/admin/products')
       })
+      .catch(err => next(err))
+  },
+  deleteProduct: (req, res, next) => {
+    return Product.findByPk(req.params.id)
+      .then(product => {
+        if (!product) throw new Error("product didn't exist!")
+        return product.destroy()
+      })
+      .then(() => res.redirect('/admin/products'))
       .catch(err => next(err))
   }
 }

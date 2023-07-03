@@ -1,14 +1,21 @@
 <div class="form-row mb-3">
   <label class="form-label" for="name">Name</label>
-  <input class="form-control" type="text" name="name" id="name" placeholder="Enter name"  value="{{product.name}}" required>
+  <input class="form-control" type="text" name="name" id="name" placeholder="Enter name" value="{{product.name}}"
+    required>
+</div>
+<div class="form-row mb-3">
+  <label class="form-label" for="price">Price</label>
+  <input class="form-control" type="text" name="price" id="price" placeholder="Enter price" value="{{product.price}}"
+    required>
+</div>
+<div class="form-row mb-3">
+  <label class="form-label" for="inventory">Inventory</label>
+  <input class="form-control" type="text" name="inventory" id="inventory" placeholder="Enter inventory"
+    value="{{product.inventory}}" required>
 </div>
 <div class="form-row mb-3">
   <label class="form-label" for="description">Description</label>
   <textarea class="form-control" id="description" name="description" rows="3">{{product.description}}</textarea>
-</div>
-<div class="form-row mb-3">
-  <label class="form-label" for="price">Price</label>
-  <input class="form-control" type="text" name="price" id="price" placeholder="Enter price" value="{{product.price}}" required>
 </div>
 <div class="form-row mb-3">
   <label class="form-label" for="image">Image</label>
