@@ -28,6 +28,16 @@ const adminController = {
         res.redirect('/admin/products')
       })
       .catch(err => next(err))
+  },
+  getProduct: (req, res, next) => {
+    Product.findByPk(req.params.id, { // 去資料庫用 id 找一筆資料
+      raw: true // 找到以後整理格式再回傳
+    })
+      .then(product => {
+        if (!product) throw new Error("Product didn't exist!") //  如果找不到，回傳錯誤訊息，後面不執行
+        res.render('admin/product', { product })
+      })
+      .catch(err => next(err))
   }
 }
 module.exports = adminController
