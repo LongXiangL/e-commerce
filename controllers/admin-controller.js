@@ -38,6 +38,39 @@ const adminController = {
         res.render('admin/product', { product })
       })
       .catch(err => next(err))
+  },
+  editProduct: (req, res, next) => {
+    Product.findByPk(req.params.id, {
+      raw: true
+    })
+      .then(product => {
+        if (!product) throw new Error("Product didn't exist!")
+        res.render('admin/edit-product', { product })
+      })
+      .catch(err => next(err))
+  },
+  putProduct: (req, res, next) => {
+    const { name, price, image, description } = req.body
+    if (!name) throw new Error('Product name is required!')
+    const { file } = req
+    Promise.all([
+      Product.findByPk(req.params.id),
+      localFileHandler(file)
+    ])
+      .then(([product, filePath]) => {
+        if (!product) throw new Error("Product didn't exist!")
+        return product.update({
+          name,
+          price,
+          image: filePath || product.image || image,
+          description
+        })
+      })
+      .then(() => {
+        req.flash('success_messages', 'product was successfully to update')
+        res.redirect('/admin/products')
+      })
+      .catch(err => next(err))
   }
 }
 module.exports = adminController
