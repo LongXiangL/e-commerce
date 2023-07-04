@@ -11,7 +11,7 @@ module.exports = {
         image: `https://loremflickr.com/320/240/object/?lock=${Math.random() * 100}`,
         createdAt: new Date(),
         updatedAt: new Date(),
-        inventory: faker.random.number({ min: 0, max: 100 })
+        inventory: faker.datatype.number({ min: 0, max: 100 })
       })), {})
   },
 
