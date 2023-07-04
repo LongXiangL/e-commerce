@@ -13,12 +13,12 @@ module.exports = (sequelize, DataTypes) => {
       Product.belongsToMany(models.Cart, {
         through: models.CartItem,
         foreignKey: 'ProductId',
-        as: 'ProductCarts'// carts
+        as: 'carts'// carts
       })
       Product.belongsToMany(models.Order, {
         through: models.OrderItem,
         foreignKey: 'ProductId',
-        as: 'ProductOrders'// orders
+        as: 'orders'// orders
       })
     }
   };
