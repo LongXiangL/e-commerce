@@ -8,7 +8,7 @@ module.exports = {
         name: faker.commerce.productName(),
         description: faker.commerce.productDescription(),
         price: faker.commerce.price(),
-        image: `https://loremflickr.com/320/240/object/?lock=${Math.random() * 100}`,
+        image: `https://loremflickr.com/320/240/food/?lock=${Math.random() * 100}`,
         createdAt: new Date(),
         updatedAt: new Date(),
         inventory: faker.datatype.number({ min: 0, max: 100 })

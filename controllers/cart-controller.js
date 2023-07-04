@@ -1,16 +1,25 @@
 const { Cart, CartItem, Product } = require('../models')
 
 const cartController = {
-  getCart: async (req, res) => {
-    try {
-      const cart = await Cart.findOne({
-        include: 'cartProduct'
+  getCart: (req, res, next) => {
+    return Cart.findOne({
+      include: 'cartProducts'
+    })
+      .then(cart => {
+        const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+
+        const cartProducts = cart.cartProducts.map(product => {
+          const { id, name, quantity, price, image } = product
+          return { id, name, quantity, price, image }
+        })
+        res.locals.getCart = cartProducts
+        res.locals.totalPrice = totalPrice
+        console.log('打印機', cartProducts, totalPrice)
+
+        return next()
       })
-      const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-      return ({ cart: cart.toJSON(), totalPrice })
-    } catch (e) {
-      console.log(e)
-    }
+      .catch(err => next(err))
   }
+
 }
 module.exports = cartController
