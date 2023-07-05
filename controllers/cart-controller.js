@@ -7,8 +7,10 @@ const cartController = {
         model: Product,
         as: 'cartProducts',
         through: CartItem
-      }]
+      }],
+      where: { UserId: req.user.id }
     })
+
       .then(cart => {
         const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
 
