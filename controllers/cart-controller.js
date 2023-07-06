@@ -12,13 +12,19 @@ const cartController = {
         where: { UserId: req.user.id }
       })
         .then(cart => {
-          const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+          let totalPrice = 0
+          let cartProducts = []
 
-          const cartProducts = cart.cartProducts.map(product => {
-            const { id, name, quantity, price, image } = product
-            const CartItem = product.CartItem.dataValues
-            return { id, name, quantity, price, image, CartItem }
-          })
+          if (cart && cart.cartProducts && cart.cartProducts.length > 0) {
+            totalPrice = cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b)
+            cartProducts = cart.cartProducts.map(product => {
+              const { id, name, quantity, price, image } = product
+              const CartItem = product.CartItem.dataValues
+              console.log(cartProducts, totalPrice)
+              return { id, name, quantity, price, image, CartItem }
+            })
+          }
+
           res.locals.getCart = cartProducts
           res.locals.totalPrice = totalPrice
 
@@ -30,6 +36,7 @@ const cartController = {
       return res.redirect('/signin')
     }
   },
+
   postCart: (req, res, next) => {
     const { productId } = req.body
 
