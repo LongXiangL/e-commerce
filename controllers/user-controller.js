@@ -15,20 +15,21 @@ const userController = {
       })
       .then(hash => User.create({
         email: req.body.email,
-        password: hash
+        password: hash,
+        role: '0'
       }))
       .then(() => {
         req.flash('success_messages', '成功註冊帳號！')
         res.redirect('/signin')
       })
       .catch(err => next(err))
-  }, // 新增以下程式碼
+  },
   signInPage: (req, res) => {
     res.render('signin')
   },
   signIn: (req, res) => {
     req.flash('success_messages', '成功登入！')
-    res.redirect('/restaurants')
+    res.redirect('/products')
   },
   logout: (req, res) => {
     req.flash('success_messages', '登出成功！')

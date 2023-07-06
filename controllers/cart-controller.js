@@ -27,7 +27,7 @@ const cartController = {
         .catch(err => next(err))
     } else {
       req.flash('warning_msg', '請先登入~')
-      return res.redirect('/users/login')
+      return res.redirect('/signin')
     }
   },
   postCart: (req, res, next) => {
@@ -35,23 +35,21 @@ const cartController = {
 
     Product.findByPk(productId)
       .then(addProduct => {
-        // 檢查商品庫存
-        if (addProduct.inventory === 0) {
-          req.flash('warning_msg', `商品Id:${productId} 已經沒有庫存了!`)
-          return res.redirect('back')
-        }
-
+        // 尋找購物車或創建新購物車
         let cartPromise
         let cart
-
-        // 尋找購物車或創建新購物車
         if (req.user) {
           cartPromise = Cart.findOrCreate({
             where: { UserId: req.user.id || 0 }
           })
         } else {
           req.flash('warning_msg', '請先登入~')
-          return res.redirect('/users/login')
+          return res.redirect('/signin')
+        }
+        // 檢查商品庫存
+        if (addProduct.inventory === 0) {
+          req.flash('warning_msg', `商品Id:${productId} 已經沒有庫存了!`)
+          return res.redirect('back')
         }
 
         return cartPromise
