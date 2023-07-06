@@ -16,7 +16,7 @@ router.post('/signin', passport.authenticate('local', { failureRedirect: '/signi
 router.get('/logout', userController.logout)
 
 router.get('/products', authenticated, cartController.getCart, productController.getProducts)
-router.get('/cart', authenticated, cartController.getCart)
+router.post('/cart', authenticated, cartController.postCart)
 
 router.use('/', (req, res) => res.redirect('/products'))
 router.use('/', generalErrorHandler)
