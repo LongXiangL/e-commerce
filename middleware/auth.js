@@ -4,6 +4,7 @@ const authenticated = (req, res, next) => {
   if (ensureAuthenticated(req)) {
     return next()
   }
+  req.flash('warning_msg', '請先登入!')
   res.redirect('/signin')
 }
 const authenticatedAdmin = (req, res, next) => {

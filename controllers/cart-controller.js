@@ -43,7 +43,7 @@ const cartController = {
             where: { UserId: req.user.id || 0 }
           })
         } else {
-          req.flash('warning_msg', '請先登入~')
+          req.flash('warning_msg', '請先登入!')
           return res.redirect('/signin')
         }
         // 檢查商品庫存
