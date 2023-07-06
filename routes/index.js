@@ -8,6 +8,8 @@ const cartController = require('../controllers/cart-controller')
 const { authenticated, authenticatedAdmin } = require('../middleware/auth')
 const { generalErrorHandler } = require('../middleware/error-handler')
 
+router.get('/products/:id', productController.getProduct)
+
 router.use('/admin', authenticatedAdmin, admin)
 router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)

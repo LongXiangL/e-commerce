@@ -23,6 +23,20 @@ const productController = {
         pagination: getPagination(limit, page, products.count)
       })
     })
+  },
+
+  getProduct: (req, res, next) => {
+    return Product.findByPk(req.params.id, {
+      nest: true,
+      raw: true
+    })
+      .then(product => {
+        if (!product) throw new Error("product didn't exist!")
+        res.render('product', {
+          product
+        })
+      })
+      .catch(err => next(err))
   }
 }
 module.exports = productController
