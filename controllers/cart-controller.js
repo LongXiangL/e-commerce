@@ -2,6 +2,7 @@ const { Cart, CartItem, Product } = require('../models')
 
 const cartController = {
   getCart: (req, res, next) => {
+  // find if user has cart
     if (req.user) {
       return Cart.findOne({
         include: [{
@@ -14,7 +15,6 @@ const cartController = {
         .then(cart => {
           let totalPrice = 0
           let cartProducts = []
-
           if (cart?.cartProducts?.length > 0) {
             totalPrice = cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b)
             cartProducts = cart.cartProducts.map(product => {
