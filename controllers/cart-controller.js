@@ -15,7 +15,7 @@ const cartController = {
           let totalPrice = 0
           let cartProducts = []
 
-          if (cart && cart.cartProducts && cart.cartProducts.length > 0) {
+          if (cart?.cartProducts?.length > 0) {
             totalPrice = cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b)
             cartProducts = cart.cartProducts.map(product => {
               const { id, name, quantity, price, image } = product
