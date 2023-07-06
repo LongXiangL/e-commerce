@@ -17,6 +17,7 @@ router.get('/logout', userController.logout)
 
 router.get('/products', authenticated, cartController.getCart, productController.getProducts)
 router.post('/cart', authenticated, cartController.postCart)
+router.delete('/cartItem/:productId', authenticated, cartController.deleteCartItem)
 
 router.use('/', (req, res) => res.redirect('/products'))
 router.use('/', generalErrorHandler)

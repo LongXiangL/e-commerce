@@ -90,7 +90,21 @@ const cartController = {
           })
       })
       .catch(err => next(err))
+  },
+  deleteCartItem: (req, res, next) => {
+    CartItem.findByPk(req.params.productId, {
+      include: Product
+    })
+      .then(product => {
+        return product.destroy()
+      })
+      .then(product => {
+        const productName = product.toJSON().Product.name
+        req.flash('success_messages', `Your cart's Product:${productName} Delete Success!`)
+        return res.status(200).redirect('back')
+      })
+      .catch(err => next(err))
   }
-
 }
+
 module.exports = cartController
