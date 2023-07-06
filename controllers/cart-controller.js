@@ -73,13 +73,20 @@ const cartController = {
             if (!created) {
               // 檢查商品數量是否超過庫存
               if (product.quantity + 1 > addProduct.inventory) {
-                req.flash('warning_msg', `商品Id:${productId} 庫存剩下${addProduct.inventory}件!`
+                req.flash(
+                  'warning_msg',
+                  `商品Id:${productId} 庫存剩下${addProduct.inventory}件!`
                 )
                 return res.redirect('back')
               }
+
               product.quantity += 1
             }
+
             return product.save()
+          })
+          .then(() => {
+            return res.status(200).redirect('back')
           })
       })
       .catch(err => next(err))
