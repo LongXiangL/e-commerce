@@ -133,6 +133,19 @@ const cartController = {
         res.redirect('back')
       })
       .catch(err => next(err))
+  },
+  subCartItem: (req, res, next) => {
+    CartItem.findByPk(req.params.productId)
+      .then(product => {
+        const newQuantity = product.quantity - 1 > 0 ? product.quantity - 1 : 1
+        return product.update({
+          quantity: newQuantity
+        })
+      })
+      .then(() => {
+        res.redirect('back')
+      })
+      .catch(err => next(err))
   }
 
 }
