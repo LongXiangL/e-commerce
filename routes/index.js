@@ -20,6 +20,9 @@ router.get('/logout', userController.logout)
 router.get('/products/:id', productController.getProduct)
 router.get('/products', authenticated, cartController.getCart, productController.getProducts)
 router.post('/cart', authenticated, cartController.postCart)
+
+router.post('/cartItem/:productId/add', authenticated, cartController.addCartItem)
+
 router.delete('/cartItem/:productId', authenticated, cartController.deleteCartItem)
 
 router.use('/', (req, res) => res.redirect('/products'))

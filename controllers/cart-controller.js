@@ -2,7 +2,7 @@ const { Cart, CartItem, Product } = require('../models')
 
 const cartController = {
   getCart: (req, res, next) => {
-  // find if user has cart
+    // find if user has cart
     if (req.user) {
       return Cart.findOne({
         include: [{
@@ -18,10 +18,9 @@ const cartController = {
           if (cart?.cartProducts?.length > 0) {
             totalPrice = cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b)
             cartProducts = cart.cartProducts.map(product => {
-              const { id, name, quantity, price, image } = product
+              const { id, name, quantity, price, image, inventory } = product
               const CartItem = product.CartItem.dataValues
-              console.log(cartProducts, totalPrice)
-              return { id, name, quantity, price, image, CartItem }
+              return { id, name, quantity, price, image, CartItem, inventory }
             })
           }
 
@@ -109,7 +108,33 @@ const cartController = {
         return res.status(200).redirect('back')
       })
       .catch(err => next(err))
+  },
+  addCartItem: (req, res, next) => {
+    return CartItem.findByPk(req.params.productId, {
+      include: {
+        model: Product
+      }
+    })
+      .then(product => {
+        // 檢查庫存夠不夠
+        if (product.toJSON().quantity + 1 > product.toJSON().Product.inventory) {
+          req.flash(
+            'warning_msg',
+            `商品:${product.toJSON().Product.name} 庫存剩下${product.toJSON().Product.inventory}件!`
+          )
+          return res.redirect('back')
+        } else {
+          return product.update({
+            quantity: product.quantity + 1
+          })
+        }
+      })
+      .then(() => {
+        res.redirect('back')
+      })
+      .catch(err => next(err))
   }
+
 }
 
 module.exports = cartController
