@@ -9,5 +9,8 @@ module.exports = {
     if (typeof a === 'number' && typeof b === 'number') {
       return a * b
     }
+  },
+  formatTime: function (a) {
+    return dayjs(a).locale('zh-tw').format('YYYY/MM/DD (dd) a HH:mm:ss')
   }
 }
