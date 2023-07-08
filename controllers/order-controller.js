@@ -1,40 +1,21 @@
-const { Order, OrderItem, Product } = require('../models')
+const { Order, OrderItem, Product, Cart } = require('../models')
 
 const orderController = {
-  getOrders: (req, res, next) => {
-    Order.findAll({
-      raw: true,
-      nest: true,
+  fillOrderData: (req, res, next) => {
+    Cart.findOne({
       where: { UserId: req.user.id },
-      include: 'orderProducts'
+      include: 'cartProducts'
     })
-      .then(ordersHavingProducts => {
-        return Order.findAll({
-          raw: true,
-          nest: true,
-          where: { UserId: req.user.id }
-        })
-          .then(orders => {
-            orders.forEach(order => {
-              order.orderProducts = []
-            })
-
-            ordersHavingProducts.forEach(product => {
-              const index = orders.findIndex(order => order.id === product.id)
-              if (index === -1) return
-              orders[index].orderProducts.push(product.orderProducts)
-            })
-
-            res.render('orders', { orders })
-          })
-      })
-      .then(orders => {
-        if (orders) {
-          res.render('orders', { orders })
-        } else {
-          req.flash('warning_msg', '訂單內還沒有東西~')
-          return res.redirect('/products')
+      .then(cart => {
+        if (!cart || !cart.cartProducts.length) {
+          req.flash('warning_msg', '購物車空空的唷!')
+          return res.redirect('back')
         }
+
+        const cartId = cart.id
+        const amount = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+
+        res.render('orderData', { cartId, amount })
       })
       .catch(err => next(err))
   }
