@@ -36,8 +36,27 @@ const orderController = {
         res.render('orders', { orders })
       })
       .catch(err => next(err))
+  // },
+  // getOrder: (req, res, next) => {
+  //   Order.findByPk(req.params.id, {
+  //     include: 'orderProducts'
+  //   })
+  //     .then(order => {
+  //       if (order.toJSON().payment_status === '0') {
+  //         const tradeData = getData(order.amount, '卡羅購物-精選商品', req.user.email)
+  //         return order.update({
+  //           sn: tradeData.MerchantOrderNo.toString()
+  //         })
+  //           .then(() => {
+  //             res.render('order', { order: order.toJSON(), tradeData })
+  //           })
+  //       } else {
+  //         const paidOrder = true
+  //         res.render('order', { order: order.toJSON(), paidOrder })
+  //       }
+  //     })
+  //     .catch(err => next(err))
   },
-
   fillOrderData: (req, res, next) => {
     Cart.findOne({
       where: { UserId: req.user.id },
