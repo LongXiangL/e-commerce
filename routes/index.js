@@ -21,12 +21,16 @@ router.get('/logout', userController.logout)
 
 router.get('/products/:id', productController.getProduct)
 router.get('/products', authenticated, cartController.getCart, productController.getProducts)
+
 router.post('/cart', authenticated, cartController.postCart)
-router.get('/order/data', orderController.fillOrderData)
 router.post('/cartItem/:productId/add', authenticated, cartController.addCartItem)
 router.post('/cartItem/:productId/sub', authenticated, cartController.subCartItem)
-
 router.delete('/cartItem/:productId', authenticated, cartController.deleteCartItem)
+
+router.get('/orders', orderController.getOrders)
+
+router.get('/order/data', orderController.fillOrderData)
+// router.post('/order/data', orderController.postOrder)
 
 router.use('/', (req, res) => res.redirect('/products'))
 router.use('/', generalErrorHandler)
