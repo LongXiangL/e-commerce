@@ -36,26 +36,26 @@ const orderController = {
         res.render('orders', { orders })
       })
       .catch(err => next(err))
-  // },
-  // getOrder: (req, res, next) => {
-  //   Order.findByPk(req.params.id, {
-  //     include: 'orderProducts'
-  //   })
-  //     .then(order => {
-  //       if (order.toJSON().payment_status === '0') {
-  //         const tradeData = getData(order.amount, '卡羅購物-精選商品', req.user.email)
-  //         return order.update({
-  //           sn: tradeData.MerchantOrderNo.toString()
-  //         })
-  //           .then(() => {
-  //             res.render('order', { order: order.toJSON(), tradeData })
-  //           })
-  //       } else {
-  //         const paidOrder = true
-  //         res.render('order', { order: order.toJSON(), paidOrder })
-  //       }
-  //     })
-  //     .catch(err => next(err))
+    // },
+    // getOrder: (req, res, next) => {
+    //   Order.findByPk(req.params.id, {
+    //     include: 'orderProducts'
+    //   })
+    //     .then(order => {
+    //       if (order.toJSON().payment_status === '0') {
+    //         const tradeData = getData(order.amount, '卡羅購物-精選商品', req.user.email)
+    //         return order.update({
+    //           sn: tradeData.MerchantOrderNo.toString()
+    //         })
+    //           .then(() => {
+    //             res.render('order', { order: order.toJSON(), tradeData })
+    //           })
+    //       } else {
+    //         const paidOrder = true
+    //         res.render('order', { order: order.toJSON(), paidOrder })
+    //       }
+    //     })
+    //     .catch(err => next(err))
   },
   fillOrderData: (req, res, next) => {
     Cart.findOne({
@@ -112,27 +112,29 @@ const orderController = {
           shipping_status: req.body.shipping_status,
           payment_status: req.body.payment_status
         })
-
+        return Promise.all([...updateInventoryPromises, createOrderPromise])
+      })
+      .then(results => {
+        const order = results[results.length - 1]
+        console.log(order)
         // Create orderItems (cartItems -> orderItems)
         const createOrderItemsPromises = cart.cartProducts.map(product => {
           const { id, price, CartItem } = product
           const quantity = CartItem.quantity
-
           return OrderItem.create({
-            OrderId: createOrderPromise.id,
+            OrderId: order.id,
             ProductId: id,
             price,
             quantity
           })
         })
-
-        return Promise.all([...updateInventoryPromises, createOrderPromise, ...createOrderItemsPromises])
+        return Promise.all(createOrderItemsPromises)
       })
       .then(() => {
         // Clear cart and cartItems
-        cart.destroy()
-        return res.redirect('orders')
+        return cart.destroy()
       })
+      .then(() => res.redirect('/orders'))
       .catch(err => next(err))
   }
 }
