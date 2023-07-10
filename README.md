@@ -20,7 +20,7 @@ Password: 12345678
 
 ### 首頁
 
-![](public/截圖 2023-07-10 下午11.46.30.png)
+![image](https://github.com/LongXiangL/e-commerce/blob/main/public/%E6%88%AA%E5%9C%96%202023-07-10%20%E4%B8%8B%E5%8D%8811.46.30.png)
 
 <後台登入 & 相關頁面>
 
