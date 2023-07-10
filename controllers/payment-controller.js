@@ -1,4 +1,4 @@
-const { Order, OrderItem, Product, Cart, Payment } = require('../models')
+const { Order, Payment } = require('../models')
 
 const paymentController = {
   postPayment: (req, res, next) => {
