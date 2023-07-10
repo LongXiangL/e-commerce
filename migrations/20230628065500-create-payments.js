@@ -23,9 +23,6 @@ module.exports = {
       last3number: {
         type: Sequelize.STRING
       },
-      paid_at: {
-        type: Sequelize.DATE
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

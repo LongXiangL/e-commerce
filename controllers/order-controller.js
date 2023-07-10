@@ -121,12 +121,14 @@ const orderController = {
       include: 'orderProducts'
     })
       .then(order => {
-        console.log('getttttttttt', order)
         if (order.toJSON().payment_status === '0') {
-          return res.render('order', { order: order.toJSON() })
+          const notYatPay = true
+          return res.render('order', { order: order.toJSON(), notYatPay })
+        } else if (order.toJSON().payment_status === '-1') {
+          const checking = true
+          res.render('order', { order: order.toJSON(), checking })
         } else {
-          const paidOrder = true
-          res.render('order', { order: order.toJSON(), paidOrder })
+          res.render('order', { order: order.toJSON() })
         }
       })
       .catch(err => next(err))

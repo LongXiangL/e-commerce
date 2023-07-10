@@ -79,29 +79,44 @@
           <div>付款狀態:
             {{#ifCond order.payment_status '1'}}已付款{{/ifCond}}
             {{#ifCond order.payment_status '0'}}未付款{{/ifCond}}
+            {{#ifCond order.payment_status '-1'}}待確認{{/ifCond}}
+
           </div>
         </div>
-        {{#if paidOrder}}
-        {{else}}
+        {{#if notYatPay}}
     <li class="list-group-item">
       <div class="d-flex justify-content-between">
         <div class="info">
           <form name="last3number" action="/payment" method="POST" class="d-inline">
             {{!-- last3number --}}
+            <input type="hidden" name="orderId" value="{{order.id}}">
+            <input type="hidden" name="amount" value="{{order.amount}}">
+
             <h5 class="font-weight-bold">匯款資訊</h3>
-            <h5 class="font-weight-bold">000 XXX銀行</h3>
-            <h5 class="font-weight-bold">帳號：1234567890</h3>
-            <div class="form-group">
-              <label for="last3number">匯款末3碼</label>
-              <input type="text" class="form-control" id="last3number" placeholder="請輸入匯款帳號末3碼" name="last3number">
-            </div>
-            <h3 class="font-weight-bold">匯款後將在1個工作天內確認您的付款狀態與寄出您的商品</h3>
-            <button type="submit" class="btn btn-outline-success">付款</button>
+              <h5 class="font-weight-bold">000 XXX銀行</h3>
+                <h5 class="font-weight-bold">帳號：1234567890</h3>
+                  <div class="form-group">
+                    <label for="last3number">匯款末3碼</label>
+                    <input type="text" class="form-control" id="last3number" placeholder="請輸入匯款帳號末3碼"
+                      name="last3number">
+                  </div>
+                  <h3 class="font-weight-bold">匯款後將在1個工作天內確認您的付款狀態</h3>
+                  <button type="submit" class="btn btn-outline-success">付款</button>
           </form>
         </div>
       </div>
     </li>
     {{/if}}
+    {{#if checking}}
+    <li class="list-group-item">
+      <div class="d-flex justify-content-between">
+        <div class="info">
+          <h3 class="font-weight-bold">款項確認中</h3>
+         
+          {{/if }}
+        </div>
+      </div>
+    </li>
 </div>
 </li>
 </ul>

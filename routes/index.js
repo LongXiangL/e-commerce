@@ -6,7 +6,7 @@ const productController = require('../controllers/product-controller')
 const userController = require('../controllers/user-controller')
 const cartController = require('../controllers/cart-controller')
 const orderController = require('../controllers/order-controller')
-
+const paymentController = require('../controllers/payment-controller')
 const { authenticated, authenticatedAdmin } = require('../middleware/auth')
 const { generalErrorHandler } = require('../middleware/error-handler')
 
@@ -32,6 +32,7 @@ router.get('/orders', orderController.getOrders)
 router.get('/order/data', orderController.fillOrderData)
 router.post('/order/data', orderController.postOrder)
 router.get('/order/:id', orderController.getOrder)
+router.post('/payment', paymentController.postPayment)
 
 router.use('/', (req, res) => res.redirect('/products'))
 router.use('/', generalErrorHandler)

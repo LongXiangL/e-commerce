@@ -1,5 +1,5 @@
 <style>
- .step {
+  .step {
     border: #10100f 1px solid;
     border-radius: 30px;
     padding: 8px 12px;
@@ -43,15 +43,15 @@
     <form action="/order/data" method="POST">
       <div class="form-group">
         <label for="name">姓名</label>
-        <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
+        <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
       </div>
       <div class="form-group">
         <label for="phone">電話</label>
-        <input type="text" class="form-control" id="phone" placeholder="Enter phone" name="phone">
+        <input type="text" class="form-control" id="phone" placeholder="Enter phone" name="phone" required>
       </div>
       <div class="form-group">
         <label for="address">收件地址</label>
-        <input type="text" class="form-control" id="address" placeholder="Enter address" name="address">
+        <input type="text" class="form-control" id="address" placeholder="Enter address" name="address" required>
       </div>
       <input type="hidden" name="cartId" value="{{cartId}}">
       <input type="hidden" name="amount" value="{{amount}}">
