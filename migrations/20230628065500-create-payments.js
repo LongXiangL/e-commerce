@@ -20,7 +20,7 @@ module.exports = {
       amount: {
         type: Sequelize.INTEGER
       },
-      payment_method: {
+      last3number: {
         type: Sequelize.STRING
       },
       paid_at: {

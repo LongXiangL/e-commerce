@@ -37,24 +37,6 @@ const orderController = {
       })
       .catch(err => next(err))
   },
-  // getOrder: (req, res, next) => {
-  //   Order.findByPk(req.params.id, {
-  //     include: 'orderProducts'
-  //   })
-  //     .then(order => {
-  //       if (order.toJSON().payment_status === '0') {
-  //         return order.update({
-  //         })
-  //           .then((tradeData) => {
-  //             res.render('order', { order: order.toJSON(), tradeData })
-  //           })
-  //       } else {
-  //         const paidOrder = true
-  //         res.render('order', { order: order.toJSON(), paidOrder })
-  //       }
-  //     })
-  //     .catch(err => next(err))
-  // },
   fillOrderData: (req, res, next) => {
     Cart.findOne({
       where: { UserId: req.user.id },
@@ -114,7 +96,6 @@ const orderController = {
       })
       .then(results => {
         const order = results[results.length - 1]
-        console.log(order)
         // Create orderItems (cartItems -> orderItems)
         const createOrderItemsPromises = cart.cartProducts.map(product => {
           const { id, price, CartItem } = product
@@ -128,10 +109,25 @@ const orderController = {
         })
         return Promise.all(createOrderItemsPromises)
       })
-      .then(() => {
-        res.redirect(`/order/${this.id}`)
+      .then(createOrderItemsPromises => {
         // Clear cart and cartItems
-        return cart.destroy()
+        cart.destroy()
+        return res.status(201).redirect(`/order/${createOrderItemsPromises[0].dataValues.OrderId}`)
+      })
+      .catch(err => next(err))
+  },
+  getOrder: (req, res, next) => {
+    Order.findByPk(req.params.id, {
+      include: 'orderProducts'
+    })
+      .then(order => {
+        console.log('getttttttttt', order)
+        if (order.toJSON().payment_status === '0') {
+          return res.render('order', { order: order.toJSON() })
+        } else {
+          const paidOrder = true
+          res.render('order', { order: order.toJSON(), paidOrder })
+        }
       })
       .catch(err => next(err))
   }

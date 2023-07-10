@@ -28,10 +28,10 @@ router.post('/cartItem/:productId/sub', authenticated, cartController.subCartIte
 router.delete('/cartItem/:productId', authenticated, cartController.deleteCartItem)
 
 router.get('/orders', orderController.getOrders)
-// router.get('/order/:id', orderController.getOrder)
 
 router.get('/order/data', orderController.fillOrderData)
 router.post('/order/data', orderController.postOrder)
+router.get('/order/:id', orderController.getOrder)
 
 router.use('/', (req, res) => res.redirect('/products'))
 router.use('/', generalErrorHandler)

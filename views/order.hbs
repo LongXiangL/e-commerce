@@ -44,7 +44,7 @@
       <h3 class="font-weight-bold">訂單付款成功 !</h3>
       {{else}}
       <h3 class="font-weight-bold">訂單成立，請接著付款!</h3>
-    
+
 
       {{/if}}
       <h4>您的訂單編號為 {{order.id}} ，請確認下方訂單資訊!</h4>
@@ -68,7 +68,7 @@
       <h5 class="font-weight-bold">送貨資訊</h5>
       <div>收件人姓名: {{order.name}}</div>
       <div>收件人電話號碼: {{order.phone}}</div>
-      <div>送貨方式: XXX</div>
+      <div>送貨方式: 宅配</div>
       <div>地址: {{order.address}}</div>
     </li>
     <li class="list-group-item">
@@ -83,22 +83,29 @@
         </div>
         {{#if paidOrder}}
         {{else}}
-        <form name="Newebpay" action="{{tradeData.PayGateWay}}" method="POST" class="d-inline">
-          <button type="submit" class="btn btn-outline-success">前往付款</button>
-          {{!-- MerchantID: --}}
-          <input type="hidden" name="MerchantID" value="{{tradeData.MerchantID}}"><br>
-          {{!-- TradeInfo: --}}
-          <input type="hidden" name="TradeInfo" value="{{tradeData.TradeInfo}}"><br>
-          {{!-- TradeSha: --}}
-          <input type="hidden" name="TradeSha" value="{{tradeData.TradeSha}}"><br>
-          {{!-- Version: --}}
-          <input type="hidden" name="Version" value="{{tradeData.Version}}"><br>
-        </form>
-        {{/if}}
+    <li class="list-group-item">
+      <div class="d-flex justify-content-between">
+        <div class="info">
+          <form name="last3number" action="/payment" method="POST" class="d-inline">
+            {{!-- last3number --}}
+            <h5 class="font-weight-bold">匯款資訊</h3>
+            <h5 class="font-weight-bold">000 XXX銀行</h3>
+            <h5 class="font-weight-bold">帳號：1234567890</h3>
+            <div class="form-group">
+              <label for="last3number">匯款末3碼</label>
+              <input type="text" class="form-control" id="last3number" placeholder="請輸入匯款帳號末3碼" name="last3number">
+            </div>
+            <h3 class="font-weight-bold">匯款後將在1個工作天內確認您的付款狀態與寄出您的商品</h3>
+            <button type="submit" class="btn btn-outline-success">付款</button>
+          </form>
+        </div>
       </div>
     </li>
-  </ul>
-  <div class="d-flex justify-content-end mb-5">
-    <a href="/order" class="btn btn-outline-dark">回到訂單頁面</a>
-  </div>
+    {{/if}}
+</div>
+</li>
+</ul>
+<div class="d-flex justify-content-end mb-5">
+  <a href="/orders" class="btn btn-outline-dark">回到訂單頁面</a>
+</div>
 </div>
