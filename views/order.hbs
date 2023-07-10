@@ -1,21 +1,23 @@
 <style>
   .step {
-    border: #3fb618 1px solid;
+    border: #10100f 1px solid;
     border-radius: 30px;
     padding: 8px 12px;
     color: black;
   }
 
   .step-now {
-    background-color: #3fb618;
+    background-color: #f9d319;
   }
 
   .line {
-    border-top: #3fb618 1px solid;
+    border-top: #10100f 1px solid;
     margin-top: 10px;
     width: 300px;
+
   }
 </style>
+
 
 <div class="mt-5 mx-5">
   <div class="d-flex justify-content-center mt-5 mb-3">
@@ -39,9 +41,11 @@
   <ul class="list-group mb-3">
     <li class="list-group-item bg-light text-center">
       {{#if paidOrder}}
-      <h3 class="font-weight-bold">訂單付款成功 Email 已寄出給您!</h3>
+      <h3 class="font-weight-bold">訂單付款成功 !</h3>
       {{else}}
-      <h3 class="font-weight-bold">訂單成立 Email 已寄出給您!</h3>
+      <h3 class="font-weight-bold">訂單成立，請接著付款!</h3>
+    
+
       {{/if}}
       <h4>您的訂單編號為 {{order.id}} ，請確認下方訂單資訊!</h4>
     </li>

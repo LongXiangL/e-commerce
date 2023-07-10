@@ -17,9 +17,6 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
-      sn: {
-        type: Sequelize.INTEGER
-      },
       amount: {
         type: Sequelize.INTEGER
       },
@@ -28,9 +25,6 @@ module.exports = {
       },
       paid_at: {
         type: Sequelize.DATE
-      },
-      params: {
-        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
